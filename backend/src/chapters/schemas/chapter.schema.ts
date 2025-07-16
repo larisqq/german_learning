@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export type ChapterDocument = Chapter & Document;
 
@@ -11,13 +11,8 @@ export class Chapter {
   @Prop({ required: true, unique: true })
   slug: string;
 
-  @Prop([
-    {
-      question: String,
-      answer: String,
-    },
-  ])
-  questions: { question: string; answer: string }[];
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Subchapter' }] })
+  subchapters: Types.ObjectId[];
 }
 
 export const ChapterSchema = SchemaFactory.createForClass(Chapter);

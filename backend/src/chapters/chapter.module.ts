@@ -1,19 +1,22 @@
-// src/chapters/chapter.module.ts
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ChaptersService } from './chapters.service';
+import { ChaptersController } from './chapters.controller';
 
-import { ChapterService } from './chapters.service';
-import { ChapterController } from './chapter.controller';
 import { Chapter, ChapterSchema } from './schemas/chapter.schema';
+import { Subchapter, SubchapterSchema } from './schemas/subchapter.schema'; 
+import { Question, QuestionSchema } from './schemas/question.schema'; 
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: Chapter.name, schema: ChapterSchema },
+      { name: Subchapter.name, schema: SubchapterSchema }, 
+      { name: Question.name, schema: QuestionSchema }, 
     ]),
   ],
-  controllers: [ChapterController],
-  providers: [ChapterService],
-  exports: [ChapterService], // <-- pentru seed.ts
+  controllers: [ChaptersController],
+  providers: [ChaptersService],
+  exports: [ChaptersService], // ✅ dacă alt modul (ex. PracticeModule) are nevoie de el
 })
-export class ChapterModule {}
+export class ChaptersModule {}
